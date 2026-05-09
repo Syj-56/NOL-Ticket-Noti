@@ -8,11 +8,13 @@
    - 点击「加载已解压的扩展程序」
    - 选择 `NOL Noti` 文件夹
 
+
 2. **配置 Bark 通知(ios用戶)**
    - 在 iOS 下载 Bark App
    - 获取你的 Webhook URL (格式: https://api.day.app/你的设备密钥/)
    - 复制首条webhook URL到监控悬浮窗
 <img width="2048" height="1152" alt="WhatsApp Image 2026-05-09 at 18 18 17" src="https://github.com/user-attachments/assets/6667aae8-7b88-41a1-83d5-cc38dae324d7" />
+
 
 
 3. **配置Discord通知(安卓/ios用戶)**
