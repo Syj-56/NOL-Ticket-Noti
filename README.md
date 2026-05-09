@@ -8,7 +8,7 @@
    - 点击「加载已解压的扩展程序」
    - 选择 `NOL Noti` 文件夹
 
-3. **配置 Bark 通知**
+2. **配置 Bark 通知**
    - 在 iOS 下载 Bark App
    - 获取你的 Webhook URL (格式: https://api.day.app/你的设备密钥/)
    - 点击扩展图标 -> 设置 -> 粘贴 Webhook URL
