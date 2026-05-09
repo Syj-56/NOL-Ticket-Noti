@@ -6,7 +6,7 @@
    - 访问 `chrome://extensions/`
    - 开启右上角的「开发者模式」
    - 点击「加载已解压的扩展程序」
-   - 选择 `InterparkTicketHelper` 文件夹
+   - 选择 `NOL Noti` 文件夹
 
 3. **配置 Bark 通知**
    - 在 iOS 下载 Bark App
