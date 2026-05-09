@@ -9,9 +9,10 @@
    - 选择 `NOL Noti` 文件夹
 
 2. **配置 Bark 通知**
-   - 在 iOS 下载 Bark App
+   - 在 iOS 下载 Bark App（仅支持ios，安卓还在研究）
    - 获取你的 Webhook URL (格式: https://api.day.app/你的设备密钥/)
    - 点开排队页面，在悬浮窗里Bark一栏复制粘贴webhook，注意不要透露给任何人
+   - 如果是正在排队的页面，刷新一下就会出现悬浮窗，接着配置就可以
 
 ## 使用方法
 1. 进入 Interpark 排队页面 (https://tickets.interpark.com/waiting?...)
