@@ -13,7 +13,8 @@
    - 获取你的 Webhook URL (格式: https://api.day.app/你的设备密钥/)
    - 点开排队页面，在悬浮窗里Bark一栏复制粘贴webhook，注意不要透露给任何人
    - 如果是正在排队的页面，刷新一下就会出现悬浮窗，接着配置就可以
-   - <img width="2048" height="1152" alt="WhatsApp Image 2026-05-09 at 18 15 36" src="https://github.com/user-attachments/assets/6a025068-6069-43b5-9d07-29d6b30732ca" />
+   -<img width="2048" height="1152" alt="WhatsApp Image 2026-05-09 at 18 18 17" src="https://github.com/user-attachments/assets/e71899b1-2454-4ae7-afd5-0dbf9d699f24" />
+
 
 
 ## 使用方法
