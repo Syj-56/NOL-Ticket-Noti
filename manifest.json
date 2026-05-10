@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "NOL Noti",
-  "version": "1.1",
+  "version": "1.2",
   "description": "Monitor Interpark ticket queue and notify when it's your turn",
   "permissions": [
     "activeTab",

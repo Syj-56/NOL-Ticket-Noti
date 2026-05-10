@@ -3,10 +3,10 @@ console.log('[NOL Noti Background] Testing console');
 
 const action = chrome.action || chrome.browserAction;
 
-// Simple counter for toggle state
 let toggleState = true;
 
-function updateBadge() {
+function updateBadge(state) {
+  toggleState = state;
   const text = toggleState ? 'ON' : 'OFF';
   const title = toggleState ? 'NOL Noti by Syj - ON' : 'NOL Noti by Syj - OFF';
   console.log('[NOL Noti] Badge:', text);
@@ -16,30 +16,27 @@ function updateBadge() {
   action.setTitle({ title: title });
 }
 
-// Initial
-updateBadge();
+// Initialize from storage
+chrome.storage.local.get(['pluginEnabled'], (result) => {
+  updateBadge(result.pluginEnabled !== false);
+});
 
 action.onClicked.addListener((tab) => {
   console.log('[NOL Noti] Click');
   
-  // Toggle
   toggleState = !toggleState;
   console.log('Toggle to:', toggleState);
   
-  updateBadge();
+  updateBadge(toggleState);
   
-  // Also update storage
   chrome.storage.local.set({ pluginEnabled: toggleState });
   
-  // Update panel - try sending to current tab
   if (toggleState === false) {
-    // When turning OFF, hide panel regardless of page
     chrome.tabs.sendMessage(tab.id, { 
       action: 'setPanelVisibility', 
       visible: false 
     }).catch(() => {});
   } else if (tab.url?.includes('tickets.interpark.com/waiting')) {
-    // When turning ON, only show panel on waiting page
     chrome.tabs.sendMessage(tab.id, { 
       action: 'setPanelVisibility', 
       visible: true 
@@ -146,11 +143,12 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 // Handle sound request from content script
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.action === 'playAlertSound') {
-    // Forward to active tab's content script
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
       if (tabs[0]) {
         chrome.tabs.sendMessage(tabs[0].id, { action: 'playAlertSound' }).catch(() => {});
       }
     });
+  } else if (message.action === 'ping') {
+    sendResponse({ ok: true });
   }
 });

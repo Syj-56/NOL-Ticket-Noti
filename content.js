@@ -804,27 +804,6 @@ const etaLabelEl = panelElement ? panelElement.querySelector('.nol-noti-eta-labe
         const stopBtn = panelElement ? panelElement.querySelector('#nol-stop-sound') : null;
         if (stopBtn) stopBtn.style.display = 'block';
       }
-      setTimeout(function() {
-          if (notifyType === 'bark' && barkWebhook) {
-            fetch(barkWebhook + '?sound=alarm', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ title: 'NOL Noti', body: turnMsg }) }).catch(() => {});
-          } else if (notifyType === 'discord') {
-            sendDiscord(turnMsg);
-          }
-        }, 0);
-        setTimeout(function() {
-          if (notifyType === 'bark' && barkWebhook) {
-            fetch(barkWebhook + '?sound=alarm', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ title: 'NOL Noti', body: turnMsg }) }).catch(() => {});
-          } else if (notifyType === 'discord') {
-            sendDiscord(turnMsg);
-          }
-        }, 1100);
-        setTimeout(function() {
-          if (notifyType === 'bark' && barkWebhook) {
-            fetch(barkWebhook + '?sound=alarm', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ title: 'NOL Noti', body: turnMsg }) }).catch(() => {});
-          } else if (notifyType === 'discord') {
-            sendDiscord(turnMsg);
-          }
-        }, 2000);
       return;
     }
 
@@ -891,6 +870,23 @@ const etaLabelEl = panelElement ? panelElement.querySelector('.nol-noti-eta-labe
       startPolling();
     }
   });
+
+  // Watchdog: check if extension is still alive every 5 seconds
+  let watchdogInterval = setInterval(() => {
+    try {
+      chrome.runtime.sendMessage({ action: 'ping' }, (response) => {
+        if (chrome.runtime.lastError) {
+          clearInterval(watchdogInterval);
+          if (panelElement) panelElement.remove();
+          panelElement = null;
+        }
+      });
+    } catch (e) {
+      clearInterval(watchdogInterval);
+      if (panelElement) panelElement.remove();
+      panelElement = null;
+    }
+  }, 5000);
 
   function playAlertSound() {
     console.log('[NOL Noti] Playing sound...');
