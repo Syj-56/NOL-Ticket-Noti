@@ -1,6 +1,6 @@
 # Interpark Ticket Queue Monitor - Chrome Extension
 ## 關於更新
-最新版请看本页面右边的Realease，找Latest标签，点进去就能看到
+最新版请看本页面右边的Realease，找Latest标签，点进去就能下载zip
 
 ## 安装步骤
 1.**加载扩展**
