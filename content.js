@@ -696,7 +696,7 @@ const etaLabelEl = panelElement ? panelElement.querySelector('.nol-noti-eta-labe
     for (const strong of strongs) {
       const text = strong.innerText.replace(/,/g, '');
       const num = parseInt(text);
-      if (Number.isFinite(num) && num > 100 && num < 1000000) {
+      if (Number.isFinite(num) && num >= 0 && num < 1000000) {
         queueNumber = num;
         break;
       }
@@ -841,25 +841,16 @@ const etaLabelEl = panelElement ? panelElement.querySelector('.nol-noti-eta-labe
     }
   }
 
-  function sendQueueInfo(info) {
+  function sendQueueInfo(info, skipThresholdCheck) {
     if (info && info.queueNumber !== null && info.queueNumber !== undefined) {
-      if (sentQueueNumbers.has(info.queueNumber)) return;
-      sentQueueNumbers.add(info.queueNumber);
       lastQueueInfo = info;
-      if (monitoring) { updatePanel(info); checkThreshold(info); }
+      updatePanel(info);
+      if (monitoring && !skipThresholdCheck) checkThreshold(info);
       try { chrome.runtime.sendMessage({ action: 'queueUpdate', info, url: location.href }); } catch (e) {}
     }
   }
 
-  function startPolling() {
-    setInterval(() => {
-      if (!monitoring) return;
-      const info = getQueueFromDOM();
-      if (info) sendQueueInfo(info);
-    }, 2000);
-  }
-
-  // Initialize
+// Initialize
   createPanel();
   loadSettings().then(() => {
     if (panelElement) panelElement.style.display = enabled ? 'block' : 'none';
@@ -867,9 +858,24 @@ const etaLabelEl = panelElement ? panelElement.querySelector('.nol-noti-eta-labe
       monitoring = true;
       thresholdNotificationCount = 0;
       chrome.storage.local.set({ notifiedThresholds: [] });
+      
+      const isBookingPage = window.location.href.includes('gpoticket.globalinterpark.com');
+      if (isBookingPage) {
+        monitoring = false;
+        startCountdown();
+      }
+      
       startPolling();
     }
   });
+
+  function startPolling(skipThresholdCheck) {
+    setInterval(() => {
+      if (!monitoring) return;
+      const info = getQueueFromDOM();
+      if (info) sendQueueInfo(info, skipThresholdCheck);
+    }, 2000);
+  }
 
   // Watchdog: check if extension is still alive every 5 seconds
   let watchdogInterval = setInterval(() => {
